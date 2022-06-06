@@ -3,7 +3,7 @@
 import sys
 
 global_var = {}
-desc_var = {}  # 全局变量说明
+desc_var = {}  # Global variable Description
 
 
 # use_slurm
@@ -18,7 +18,7 @@ def get_global(var):
 
 def set_default_value(var, val, desc):
     """
-    设置默认值
+    default settings
     """
     global_var[var] = val
     desc_var[var] = desc
@@ -26,5 +26,5 @@ def set_default_value(var, val, desc):
 
 def set_default():
     set_global('slurm_info', None)
-    set_default_value('use_slurm', '1', "如果为‘true’，使用slurm执行；如果为‘false’，在本地运行；默认为‘true’")
+    set_default_value('use_slurm', '1', "if 'true', execute using slurm; if 'false', run locally; default 'true'")
 

@@ -18,7 +18,7 @@ def detect_slurm():
         return
     set_global('use_slurm', '1')
 
-    # sinfo信息
+    # sinfo
     output = run_cmd(Path.cwd(),
                      "sinfo --exact -o '%N %D %c %m %t %P' | grep \* | grep -v alloc | grep -v drained | grep -v interactive")
     if output is None:

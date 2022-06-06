@@ -12,8 +12,8 @@ import json
 class Start:
     def __init__(self, argsFile):
         args = json.load(argsFile.open())
-        # ------------------------解析参数-------------------------
-        # 数据分割执行程序参数设置
+        # ------------------------Argument Parse-------------------------
+        # data split program parameter settings
         split = args.get('split')
         self.split_bin = Path(split.get('bin')).resolve()
 
@@ -36,7 +36,7 @@ class Start:
 
         self.split_my_args = split.get('my_args', '')
 
-        # 主程序参数设置
+        # main program parameter settings
         main = args.get('main')
         self.main_bin = Path(main.get('bin')).resolve()
 
@@ -63,13 +63,13 @@ class Start:
         self.main_my_args = main.get('my_args', '')
 
     def start(self):
-        # 分割数据
+        # split data
         data_path = self.split_output_value / config.DATA_DIR
         cmd = f'{self.split_exe} {self.split_bin} {self.split_input_my_input} {self.split_input_value} {self.split_output_my_output} {data_path} {self.split_my_args}'
 
         run_cmd(Path.cwd(), cmd)
 
-        # 分割后的文件作为每个作业的数据
+        # the split file is used as data for each job
         data_dict = {}
         job_id = 1
         for path in data_path.iterdir():
@@ -78,7 +78,7 @@ class Start:
                 job_id += 1
         jobid_list = range(1, job_id)
 
-        # 生成主程序的脚本文件
+        # generate the script file of the main program
         script_path = self.split_output_value / config.SCRIPT_DIR
         script_path.mkdir(parents=True, exist_ok=True)
         if config.is_windows:
@@ -123,7 +123,7 @@ class Start:
                 f.write(f'  {self.main_my_args} \\\n')
             make_executable(script_file)
 
-        # 提交作业
+        # submit job
         submit_job(script_file, self.main_threads_value, jobid_list)
 
 

@@ -1,0 +1,31 @@
+{
+  "split": {
+    "bin": "example/split.py",
+    "type": "python",
+    "input": {
+      "my_input": "-i",
+      "value": "example/test.fastq"
+    },
+    "output": {
+      "my_output": "-o",
+      "value": "example/output"
+    },
+    "my_args": "-threads 4 -mode fast"
+  },
+  "main": {
+    "bin": "example/main.py",
+    "type": "python",
+    "input": {
+      "my_input": "-i"
+    },
+    "output": {
+      "my_output": "-o",
+      "value": "example/result"
+    },
+    "threads": {
+      "my_threads": "-t",
+      "value": 8
+    },
+    "my_args": "-useSlurm=True -d ./test"
+  }
+}

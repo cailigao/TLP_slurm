@@ -6,8 +6,6 @@ global_var = {}
 desc_var = {}  # Global variable Description
 
 
-# use_slurm
-
 def set_global(var, val):
     global_var[var] = val
 
@@ -27,4 +25,3 @@ def set_default_value(var, val, desc):
 def set_default():
     set_global('slurm_info', None)
     set_default_value('use_slurm', '1', "if 'true', execute using slurm; if 'false', run locally; default 'true'")
-

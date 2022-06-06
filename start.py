@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 from tlp_slurm.execution import run_cmd, make_executable, get_jobid_shell_code, submit_job
 from tlp_slurm import config
-from tlp_slurm.detect_slurm import detect_slurm, get_slurm_min_cpus
+from tlp_slurm.detect_slurm import detect_slurm
 from tlp_slurm.global_var import set_default
 import json
 
@@ -63,26 +63,11 @@ class Start:
         self.main_my_args = main.get('my_args', '')
 
     def start(self):
-        script_path = self.split_output_value / config.SCRIPT_DIR
-        script_path.mkdir(parents=True, exist_ok=True)
-        # 生成分割数据的脚本文件
+        # 分割数据
         data_path = self.split_output_value / config.DATA_DIR
-        data_path.mkdir(parents=True, exist_ok=True)
-        if config.is_windows:
-            split_script_file = script_path / f'split.bat'
-            with split_script_file.open('w') as f:
-                f.write(
-                    f'{self.split_exe} {self.split_bin} {self.split_input_my_input} {self.split_input_value} {self.split_output_my_output} {data_path} {self.split_my_args}')
+        cmd = f'{self.split_exe} {self.split_bin} {self.split_input_my_input} {self.split_input_value} {self.split_output_my_output} {data_path} {self.split_my_args}'
 
-        else:
-            split_script_file = script_path / f'split.sh'
-            with split_script_file.open('w') as f:
-                f.write(
-                    f'{self.split_exe} {self.split_bin} {self.split_input_my_input} {self.split_input_value} {self.split_output_my_output} {data_path} {self.split_my_args}')
-            make_executable(split_script_file)
-        print(f'slurm min cpus: {get_slurm_min_cpus()}')
-        # 提交作业
-        split_job_id = submit_job(split_script_file, get_slurm_min_cpus(), jobid_list=[1])
+        run_cmd(Path.cwd(), cmd)
 
         # 分割后的文件作为每个作业的数据
         data_dict = {}
@@ -94,9 +79,11 @@ class Start:
         jobid_list = range(1, job_id)
 
         # 生成主程序的脚本文件
+        script_path = self.split_output_value / config.SCRIPT_DIR
+        script_path.mkdir(parents=True, exist_ok=True)
         if config.is_windows:
-            main_script_file = script_path / f'main.bat'
-            with main_script_file.open('w') as f:
+            script_file = script_path / f'main.bat'
+            with script_file.open('w') as f:
                 f.write(get_jobid_shell_code())
 
                 for job_id, path in data_dict.items():
@@ -113,8 +100,8 @@ class Start:
                     f.write(f'  {self.main_threads_my_threads} {self.main_threads_value} ^\n')
                 f.write(f'  {self.main_my_args} ^\n')
         else:
-            main_script_file = script_path / f'main.sh'
-            with main_script_file.open('w') as f:
+            script_file = script_path / f'main.sh'
+            with script_file.open('w') as f:
                 f.write('#!/bin/sh \n')
                 f.write('\n')
                 f.write('\n')
@@ -134,10 +121,10 @@ class Start:
                 if self.main_threads_my_threads.strip():
                     f.write(f'  {self.main_threads_my_threads} {self.main_threads_value} \\\n')
                 f.write(f'  {self.main_my_args} \\\n')
-            make_executable(main_script_file)
+            make_executable(script_file)
 
         # 提交作业
-        submit_job(main_script_file, self.main_threads_value, jobid_list,dependency_jobid=[split_job_id])
+        submit_job(script_file, self.main_threads_value, jobid_list)
 
 
 if __name__ == '__main__':

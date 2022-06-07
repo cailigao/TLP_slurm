@@ -129,7 +129,7 @@ class Start:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-a', '--argsFile', type=str, required=True, help='arguments json file')
+    parser.add_argument('argsFile', type=str, help='arguments json file')
     args = parser.parse_args()
     args.argsFile = Path(args.argsFile).resolve()
 

@@ -1,7 +1,6 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
 from pathlib import Path
-import os
 import platform
 
 is_windows = (platform.system() == 'Windows')

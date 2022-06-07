@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-import sys
 
 global_var = {}
 desc_var = {}  # Global variable Description

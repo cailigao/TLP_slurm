@@ -1,12 +1,14 @@
 ## TLP_slurm
 
+English | [简体中文](README_cn.md)
+
 **Multi-node task-level parallelism using [`Slurm`](https://github.com/SchedMD/slurm). Suitable for programs where data can be split.**
 
 The task is divided into two steps: data split, main program processing.
 
 **Data split**: Split the data to be processed into several small data pieces.
 
-**Main program**: Execute the main program to process the small data.
+**Main program**: Execute the main program to process these small pieces of data separately.
 
 ## Dependencies
 
@@ -58,7 +60,7 @@ Write command line parameters in the JSON file in the following format ([example
 
 | key                    | value                                                   |
 | ---------------------- | ------------------------------------------------------- |
-| **bin**                | path to execute the program                             |
+| **bin**                | path to the program                                     |
 | **type**               | program type: python/C/java                             |
 | **input.my_input**     | input of your program                                   |
 | **input.value**        | input path, The main program does not need to set       |
@@ -73,7 +75,7 @@ Write command line parameters in the JSON file in the following format ([example
 After setting the values in the parameter JSON file, pass the parameter JSON file with the following command and start executing the program.
 
 ```shell
-python start.py example_args.json
+$ python start.py example_args.json
 ```
 
 ## Example
@@ -111,7 +113,7 @@ example is a program that split and print fastq data, including a split program 
 Then execute the following command:
 
 ```shell
-python start.py example/args.json
+$ python start.py example/args.json
 ```
 
-You can see the output in the example/output directory.
+You can see the output in the `example/output` directory.

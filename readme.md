@@ -16,7 +16,7 @@ simple_slurm=0.2.3
 
 ## Usage
 
-#### 1. prepare
+### 1. prepare
 
 Write command line parameters in the JSON file in the following format ([example_args.json](example_args.json)). The configuration file consists of two parts: data split program parameter configuration (`split`) and main program parameter configuration (`main`).
 
@@ -58,17 +58,17 @@ Write command line parameters in the JSON file in the following format ([example
 
 | key                    | value                                                   |
 | ---------------------- | ------------------------------------------------------- |
-| bin                    | path to execute the program                             |
-| type                   | program type: python/C/java                             |
-| input.my_input         | input of your program                                   |
-| input.value            | input path, **The main program does not need to set**   |
-| output.my_output       | output of your program                                  |
-| output.value           | output path                                             |
-| threads.my_threads     | threads of your program                                 |
-| threads.value          | number of threads                                       |
-| my_args **[optional]** | all the other parameters of the program can be put here |
+| **bin**                | path to execute the program                             |
+| **type**               | program type: python/C/java                             |
+| **input.my_input**     | input of your program                                   |
+| **input.value**        | input path, The main program does not need to set       |
+| **output.my_output**   | output of your program                                  |
+| **output.value**       | output path                                             |
+| **threads.my_threads** | threads of your program                                 |
+| **threads.value**      | number of threads                                       |
+| **my_args** [optional] | all the other parameters of the program can be put here |
 
-#### 2. start
+### 2. start
 
 After setting the values in the parameter JSON file, pass the parameter JSON file with the following command and start executing the program.
 

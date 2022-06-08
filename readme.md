@@ -18,9 +18,9 @@ simple_slurm=0.2.3
 
 #### 1. prepare
 
-Write command line parameters in the JSON file in the following format ([example_args.json](example/example_args.json)). The configuration file consists of two parts: data split program parameter configuration (`split`) and main program parameter configuration (`main`).
+Write command line parameters in the JSON file in the following format ([example_args.json](example_args.json)). The configuration file consists of two parts: data split program parameter configuration (`split`) and main program parameter configuration (`main`).
 
-[example_args.json](example/example_args.json)：
+[example_args.json](example_args.json)：
 
 ```json
 {

@@ -1,12 +1,12 @@
 ## TLP_slurm
 
-Multi-node task-level parallelism using `Slurm`. Suitable for programs where data can be split.
+**Multi-node task-level parallelism using [`Slurm`](https://github.com/SchedMD/slurm). Suitable for programs where data can be split.**
 
 The task is divided into two steps: data split, main program processing.
 
-Data split: Split the data to be processed into several small data pieces.
+**Data split**: Split the data to be processed into several small data pieces.
 
-Main program: Execute the main program to process the small data.
+**Main program**: Execute the main program to process the small data.
 
 ## Dependencies
 
@@ -18,9 +18,9 @@ simple_slurm=0.2.3
 
 #### 1. prepare
 
-在json文件中按照如下格式（example_args.json）编写命令行参数，配置文件包含数据分割程序参数配置(split)和主程序参数配置（main）两个部分。
+Write command line parameters in the JSON file in the following format ([example_args.json](example/example_args.json)). The configuration file consists of two parts: data split program parameter configuration (`split`) and main program parameter configuration (`main`).
 
-example_args.json如下：
+[example_args.json](example/example_args.json)：
 
 ```json
 {
@@ -56,30 +56,29 @@ example_args.json如下：
 }
 ```
 
-| key                | value                                      |
-| ------------------ | ------------------------------------------ |
-| bin                | 执行程序的位置                             |
-| type               | 执行程序类型：python、c、java              |
-| input.my_input     | 你程序的输入形参                           |
-| input.value        | 你程序的输入实参，**注意主程序不需要设置** |
-| output.my_output   | 你程序的输出形参                           |
-| output.value       | 你程序的输出实参                           |
-| threads.my_threads | 你程序的线程形参                           |
-| threads.value      | 你程序的线程实参                           |
-| my_args            | 程序的其他参数都可以放到这里               |
+| key                    | value                                                   |
+| ---------------------- | ------------------------------------------------------- |
+| bin                    | path to execute the program                             |
+| type                   | program type: python/C/java                             |
+| input.my_input         | input of your program                                   |
+| input.value            | input path, **The main program does not need to set**   |
+| output.my_output       | output of your program                                  |
+| output.value           | output path                                             |
+| threads.my_threads     | threads of your program                                 |
+| threads.value          | number of threads                                       |
+| my_args **[optional]** | all the other parameters of the program can be put here |
 
-#### 2.执行程序
+#### 2. start
 
-设置好参数json文件中的值后，通过一下命令开始执行程序
+After setting the values in the parameter JSON file, pass the parameter JSON file with the following command and start executing the program.
 
 ```shell
-# 指定参数json文件位置
 python start.py example_args.json
 ```
 
 ## Example
 
-example是一个分割fastq数据并打印的程序，包含分割程序（split.py）、主程序（main.py）、测试数据（test.fastq）、参数json文件（args.json)。args.json内容如下：
+example is a program that split and print fastq data, including a split program ([split.py](example/split.py)), a main program ([main.py](example/main.py)), test data ([test.fastq](example/test.fastq)), and a parameter JSON file ([args.json](example/args.json)). [args.json](example/args.json) contents are as follows:
 
 ```json
 {
@@ -109,9 +108,10 @@ example是一个分割fastq数据并打印的程序，包含分割程序（split
 }
 ```
 
-然后执行以下命令
+Then execute the following command:
 
 ```shell
 python start.py example/args.json
 ```
 
+You can see the output in the example/output directory.
